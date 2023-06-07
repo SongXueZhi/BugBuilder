@@ -90,7 +90,10 @@ public class extractChange {
 
         ArrayList<String> extractedResult = new ArrayList<>();
         ArrayList<String> res = extractChange(gitDiffData,extractedResult);
-//      System.out.println("total number :"+res.size());
+        System.out.println("total number :"+res.size());
+        if(res.size() > 10){
+            return false;
+        }
         ArrayList<String> addToken = new ArrayList<>();
         ArrayList<String> deleteToken = new ArrayList<>();
         ArrayList<String> modifyToken = new ArrayList<>();
@@ -199,10 +202,10 @@ public class extractChange {
                         genPatch.appendFile(finalEach, path,count+".txt");
                         genPatch.appendFile("\n", path, count+".txt");
                         long endTime = System.currentTimeMillis();
-                        if(endTime-startTime>= 2400*1000){
-                            System.out.println("time out");
-                            return false;
-                        }
+//                        if(endTime-startTime>= 2400*1000){
+//                            System.out.println("time out");
+//                            return false;
+//                        }
                     }
                     count++;
                 }

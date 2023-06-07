@@ -22,20 +22,20 @@ public class getDiffCommit {
             System.out.println("Start:: step3: generate candidate patches based on permutation and combination");
             extractChange.runExactChange();
             end = System.currentTimeMillis();
-            if(end-start >= 2400*1000){
-                System.out.println("time out");
-                return;
-            }
+//            if(end-start >= 2400*1000){
+//                System.out.println("time out");
+//                return;
+//            }
             System.out.println("finish step 3: generate candidate patches");
 
             System.out.println("Start:: step4: compile and test each candidate patch");
 
             CompileJavaTotalProject.runCompile(finalPatch,fixV,buggyV,fixV);
             end = System.currentTimeMillis();
-            if(end-start >= 2400*1000){
-                System.out.println("time out");
-                return;
-            }
+//            if(end-start >= 2400*1000){
+//                System.out.println("time out");
+//                return;
+//            }
 //            String url = dir+"/src/diff";
             String url = "./src/diff";
             deleteAllFile.delFileMake(url);

@@ -182,7 +182,7 @@ public class selectMinPatch {
                                     System.out.println(tempPath);
                                     System.out.println(t2);
 
-                                    String cmd = "git diff -U99999 --word-diff=plain "+tempPath+ " "+t2;//
+                                    String cmd = "git diff  --no-index -U99999 --word-diff=plain "+tempPath+ " "+t2;//
                                     String cmd1 = "git diff "+tempPath+" "+t2;
 
                                     System.out.println("command::" + cmd);
@@ -292,15 +292,16 @@ public class selectMinPatch {
                 int n1=0;
 
                 if(t.size() == minLen){
-                    int n = 0;
-                    for(int j=0;j<candidates.size();j++){
-                        ArrayList<String> p = candidates.get(j);
-                        if(p.containsAll(t)){
-                            n++;
-                        }
-                    }
+                    //todo 为什么要所有的候选集都大于它才可以呢？
+//                    int n = 0;
+//                    for(int j=0;j<candidates.size();j++){
+//                        ArrayList<String> p = candidates.get(j);
+//                        if(p.containsAll(t)){
+//                            n++;
+//                        }
+//                    }
 
-                    if(n==candidates.size()){
+                    if(true){
 //                        System.out.println("succeed: minimal patch");
 //                        System.out.println(jt);
 //                        System.out.println(t);

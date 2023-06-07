@@ -387,7 +387,7 @@ public class clearPatch {
             String each = step3.get(pos);
 //            System.out.println(pos);
             if (each.startsWith("diff")) {
-                if ((pos + 4) < step3.size()) {
+                if ((pos + 4) <= step3.size()) {//<=?
                     if (step3.get(pos + 4).startsWith("diff")) {
                         pos = pos + 4;
                     } else {
@@ -427,6 +427,7 @@ public class clearPatch {
         ArrayList<String> step2 = handleEmptyLine(step1);
         ArrayList<String> step3=tuneLineNo(step2);
         ArrayList<String> step4 = removeRepeatedHeader(step3);
+        //todo +/-符号反了?
         for(int i=0;i<step4.size();i++){
             String eachLine = step4.get(i);
             if(eachLine.startsWith("+")){
@@ -459,7 +460,7 @@ public class clearPatch {
         ArrayList<String> step5 = tuneLineNo4ChangeSet(res);
         System.out.println("step5: " + step5.size());
         ArrayList<String> step6 = removeRepeatedHeader(step5);
-
+        //todo step6为空
         System.out.println("-------step6 " + step6.size() );
 
         for(int i=0;i< step6.size();i++){
