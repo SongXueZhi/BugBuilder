@@ -61,7 +61,7 @@ public class CompileJavaTotalProject {
                 String dPath = file.getAbsolutePath(); // dPath 是后缀为a的文件夹
                 ArrayList<String> modifyFile =removeDuplicate(run(dPath));
                 ArrayList<String> compiledPatch = refilter(dPath);
-                replaceFile(compiledPatch,modifyFile,origBug, Setting.defects4jPath,finalPath,args1,args2);
+                replaceFile(compiledPatch,modifyFile,origBug, getDiffCommit.defects4jPath,finalPath,args1,args2);
                 long endTime =System.currentTimeMillis();
                 if(endTime-startTime>2400*1000){
                     return;
@@ -203,12 +203,17 @@ public class CompileJavaTotalProject {
             ByteArrayOutputStream err = new ByteArrayOutputStream();
 
             int result = compiler.run(null, null, err, filePath);
-            if(err.toString().contains("import") || err.toString().contains("extends") || err.toString().contains("是公共的"))
+//            System.out.println(filePath);
+//            System.out.println("result: "+result);
+//            System.out.println("err: "+err);
+            //todo 服务器上的报错是英文，不能匹配
+            if(err.toString().contains("import") || err.toString().contains("extends") || err.toString().contains("是公共的") || err.toString().contains("is public"))
             {
                 result =0;
             }
             if (result == 0) {
                 res.add(filePath);
+                //System.out.println("add: "+filePath);
             } else {
 //              System.out.println(err.toString());
             }
@@ -255,7 +260,8 @@ public class CompileJavaTotalProject {
 
  // step 4 : 将动态编译成功的文件夹，放回fix项目编译测试
     public static void replaceFile(ArrayList<String> res, ArrayList<String> fixV,String origBug, String JPath, String finalPath,String args1,String args2) throws Exception {
-//       System.out.println("======");
+        int testCount =0;
+        //       System.out.println("======");
         ArrayList<String> removedNull = new ArrayList<String>();
         for(int q=0;q<res.size();q++)
         {
@@ -304,6 +310,7 @@ public class CompileJavaTotalProject {
 //                System.out.println("--------" + temp);
                 System.out.println("compile and test each candidate patch: (maybe cost long time)");
                 String s= compileFile(temp,JPath);
+                testCount++;
 //                if(show==1){
 //                    System.out.println("The first version: "+s);
 //                    show++;
@@ -356,10 +363,10 @@ public class CompileJavaTotalProject {
             String[] aline = canNumbers.get(0).split("@#@");
 //            System.out.println("fileName: "+aline[2] +", failingTest: "+aline[0]);
 //            String output=System.getProperty("user.dir")+"/src/finalPatch.txt";
-            clearPatch.generatePatch(finalPath,args1,args2);
+            clearPatch.generatePatch(finalPath,args1,args2,testCount);
         }else{
            System.out.println("There are multiple candidate");
-           selectMinPatch.getOne(canNumbers,finalPath,args1,args2);
+           selectMinPatch.getOne(canNumbers,finalPath,args1,args2, testCount);
         }
     }
 

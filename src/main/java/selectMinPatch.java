@@ -182,7 +182,7 @@ public class selectMinPatch {
                                     System.out.println(tempPath);
                                     System.out.println(t2);
 
-                                    String cmd = "git diff -U99999 --word-diff=plain "+tempPath+ " "+t2;//
+                                    String cmd = "git diff --no-index -U99999 --word-diff=plain "+tempPath+ " "+t2;//
                                     String cmd1 = "git diff "+tempPath+" "+t2;
 
                                     System.out.println("command::" + cmd);
@@ -259,7 +259,7 @@ public class selectMinPatch {
         return changeSet;
     }
 
-    public static void getOne(ArrayList<String> candidates, String path2generated,String args1, String args2) throws Exception{
+    public static void getOne(ArrayList<String> candidates, String path2generated,String args1, String args2, int testCount) throws Exception{
         ArrayList<ArrayList<String>> res = new ArrayList<>();
         for(String line: candidates){
             ArrayList<String> temp = getChangeSet(line);
@@ -268,10 +268,10 @@ public class selectMinPatch {
 
 //        getSuperSet(res,args1,args2);
 
-        getSubset(res,path2generated,args1,args2);
+        getSubset(res,path2generated,args1,args2, testCount);
     }
 
-    public static void getSubset(ArrayList<ArrayList<String>> candidates, String path2generated, String args1, String args2) throws Exception {
+    public static void getSubset(ArrayList<ArrayList<String>> candidates, String path2generated, String args1, String args2, int testCount) throws Exception {
 //        coverInfo.runGzoltar();
 
 //        if(coverInfo.coverInfo(coverInfo.spectra_buggy,coverInfo.spectra_fix) == true){
@@ -306,7 +306,7 @@ public class selectMinPatch {
 //                        System.out.println(t);
 
                         String output="./src/finalPatch.txt";
-                        clearPatch.generatePatch4subset(path2generated,t, args1,args2);
+                        clearPatch.generatePatch4subset(path2generated,t, args1,args2 ,testCount);
 
                     }else{
                         System.out.println("Failing (find the minimal patch)");

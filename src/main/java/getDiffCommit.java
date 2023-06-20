@@ -1,19 +1,25 @@
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 
 public class getDiffCommit {
     static  int flag = 1;//用来判断文件是否删除成功
+    static String defects4jPath = "/root/miner/defects4j/framework/bin/defects4j";
+
     public static void main(String[] args) throws Exception {
+        long start = System.currentTimeMillis();
+        long end;
+        String buggyV = args[0];
+        String fixV = args[1];
+        String finalPatch = args[2];
         try{
-            long start = System.currentTimeMillis();
-            long end;
+
             // "/Users/yanjiejiang/icse/liqui-1633b/liquibase-core/src/main/java"
 //            String dir = System.getProperty("user.dir");
 //            System.out.println(dir);
-            String buggyV = args[0];
-            String fixV = args[1];
-            String finalPatch = args[2];
-//            String tempdir = args[3];
 
+//            String tempdir = args[3];
+            cleanPatch();
             getDiffFile(fixV,buggyV);
             System.out.println("finish step 1: generate the diff format file");
             removeComment.runRemoveComment();
@@ -36,40 +42,16 @@ public class getDiffCommit {
                 System.out.println("time out");
                 return;
             }
+            cleanPatch();
+
 //            String url = dir+"/src/diff";
-            String url = "./src/diff";
-            deleteAllFile.delFileMake(url);
-            File file = new File("./");
-            if(file.isDirectory()){
-                File[] files = file.listFiles();
-                for(File f:files){
-                    String path = f.getAbsolutePath();
-                    if(path.endsWith(".txt")){
-                        deleteAllFile.deleteFile(new File(path));
-                    }
-                }
-            }
-            String fileUrl = "./src/patch.txt";
-            deleteAllFile.deleteFile(new File(fileUrl));
 
         }catch(Exception e){
            System.out.println("failed to generate patch");
 //           e.printStackTrace();
-            String dir = System.getProperty("user.dir");
-            String url = "./src/diff";
-            deleteAllFile.delFileMake(url);
-            File file = new File("./");
-            if(file.isDirectory()){
-                File[] files = file.listFiles();
-                for(File f:files){
-                    String path = f.getAbsolutePath();
-                    if(path.endsWith(".txt")){
-                        deleteAllFile.deleteFile(new File(path));
-                    }
-                }
-            }
-            String fileUrl = "./src/patch.txt";
-            deleteAllFile.deleteFile(new File(fileUrl));
+            cleanPatch();
+        }finally {
+            cleanPatch();
         }
 
 
@@ -208,8 +190,6 @@ public class getDiffCommit {
         }
     }
 
-
-
     public static void appendFile(String line, String path){
         FileWriter fw = null;
 
@@ -231,6 +211,23 @@ public class getDiffCommit {
             e.printStackTrace();
         }
 
+    }
+
+    public static void cleanPatch() throws IOException {
+        String url = "./src/diff";
+        deleteAllFile.delFileMake(url);
+        File file = new File("./src");
+        if(file.isDirectory()){
+            File[] files = file.listFiles();
+            for(File f:files){
+                String path = f.getAbsolutePath();
+                if(path.endsWith(".txt")){
+                    deleteAllFile.deleteFile(new File(path));
+                }
+            }
+        }
+        String fileUrl = "./src/patch.txt";
+        deleteAllFile.deleteFile(new File(fileUrl));
     }
 
 }

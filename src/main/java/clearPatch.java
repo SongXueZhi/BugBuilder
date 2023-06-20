@@ -418,7 +418,13 @@ public class clearPatch {
         }
     }
 
-    public static void generatePatch4subset(String output, ArrayList<String>  jt,String args1, String args2){
+    public static void generatePatch(String output,String args1, String args2, int testCount){
+        generatePatch( output, args1, args2);
+        Utils.appendFile("testCount: " + testCount+"\n",output);
+    }
+
+
+        public static void generatePatch4subset(String output, ArrayList<String>  jt,String args1, String args2, int testCount){
         ArrayList<String> res = new ArrayList<>();
         //得到修改的列表
         ArrayList<String> changes = changeSet(jt);
@@ -467,6 +473,7 @@ public class clearPatch {
             System.out.println(line);
             Utils.appendFile(line+"\n",output);
         }
+        Utils.appendFile("testCount: " + testCount+"\n",output);
 
 
 //

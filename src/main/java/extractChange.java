@@ -91,6 +91,10 @@ public class extractChange {
         ArrayList<String> extractedResult = new ArrayList<>();
         ArrayList<String> res = extractChange(gitDiffData,extractedResult);
 //      System.out.println("total number :"+res.size());
+//        System.out.println("total number :"+res.size());
+//        if(res.size() > 12){
+//            return false;
+//        }
         ArrayList<String> addToken = new ArrayList<>();
         ArrayList<String> deleteToken = new ArrayList<>();
         ArrayList<String> modifyToken = new ArrayList<>();
